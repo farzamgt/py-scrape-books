@@ -1,4 +1,5 @@
 import scrapy
+from books_scraper.items import BooksScraperItem
 
 
 class BookSpider(scrapy.Spider):
@@ -40,13 +41,15 @@ class BookSpider(scrapy.Spider):
 
         upc = response.css("table tr:nth-child(1) td::text").get()
 
-        yield {
-            "title": title,
-            "price": price,
-            "availability": availability,
-            "url": url,
-            "rating": rating,
-            "category": category,
-            "description": description,
-            "upc": upc,
-        }
+        # Create an instance of BooksScraperItem and yield it
+        item = BooksScraperItem(
+            title=title,
+            price=price,
+            availability=availability,
+            url=url,
+            rating=rating,
+            category=category,
+            description=description,
+            upc=upc
+        )
+        yield item
